@@ -1,0 +1,359 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+    <link rel="stylesheet" href="css/aos.css" />
+    <link rel="stylesheet" href="css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="css/translateelement.css">
+    <style type="text/css">
+
+    body{background-color:#000000;margin:0;padding:0;    }
+    video{}
+    .content-area{width:100%;height:700px;background-color:#ffffff;margin:0;padding:0;position:absolute;top:0;left:0;overflow: hidden;}
+    .content-area .visual-area{width:auto;height:auto;min-width: 100%;min-height: 100%;position:absolute;top:50%;left:50%;
+      transform: translateX(-50%) translateY(-50%);}
+    .txt-h1{position:absolute;top:50%;left:50%;transform:translateX(-50%) translateY(-50%);font-size: 62px;color:#fff;
+      font-family: dx-rollercoaster-std, sans-serif;
+      font-weight: 500;
+      font-style: normal;
+      word-wrap: break-word;
+      white-space: nowrap;
+      text-align: center;
+    }
+      .txt-h2{
+        font-family: yeonaesidae, sans-serif;
+        font-weight: 400;
+      font-style: normal;
+      }
+      .txt-h3{
+        font-family: yeonaesidae, sans-serif;
+        font-weight: 500;
+        font-style: normal;
+      }
+      /* GOTOP BTN */
+      .go-top {
+      	width: 48px; height: 48px; display: none;
+      	position: fixed; bottom: 48px; right: 48px;
+      	text-align:center; color:#fff;
+        border-radius: 50%;
+        background-color: #666;
+        line-height: 2.8em;
+        text-decoration: none;
+        z-index: 100;
+      }
+      /*
+       * Sticky header
+       */
+
+      .page-header {
+          position:absolute;
+          top:0;left:0;
+          z-index: 1;
+          width: 100%;
+      }
+
+      .page-header > .inner {
+          margin: auto;
+          width: 960px;
+      }
+
+      /* Logo */
+      .site-logo {
+          font-size: 100%;
+          float: left;
+          margin-left: -20px;
+      }
+      .site-logo a{
+          line-height: 65px;
+          font-size: 2em;
+          color:#fff;
+          text-decoration: none;
+      }
+
+      /* Primary nav */
+      .primary-nav {
+          float: right;
+          line-height: 65px;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+      }
+      .primary-nav li {
+          float: left;
+          list-style: none;
+      }
+      .primary-nav a {
+          display: block;
+          padding: 0 1.36em;
+          color:#fff;
+          text-decoration: none;
+      }
+      .primary-nav a:hover {
+
+      }
+
+      /* Sticky header (clone) */
+      .page-header-clone {
+          background-color: rgb(0, 0, 0);
+          opacity: 0.9;
+          position: fixed;
+          top: -65px;
+          width: 100%;
+          /*z-index: 30;*/
+          -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+                  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+          -webkit-transition: top 0.25s;
+                  transition: top 0.25s;
+      }
+      .page-header-clone .inner {
+          margin: auto;
+          width: 960px;
+      }
+      .page-header-clone.visible {
+          top: 0;
+      }
+      .page-header-clone:hover {
+          opacity: 1;
+      }
+
+      .page-header-clone .site-logo {
+          margin-left: 8px;
+      }
+      .page-header-clone .site-logo a {
+          color:#fff;
+          line-height: 35px;
+      }
+
+      .page-header-clone .primary-nav {
+          font-size: 14px;
+          line-height: 35px;
+      }
+      .page-header-clone .primary-nav a {
+          color: rgb(128, 128, 128);
+      }
+
+      .aos-all {
+        width: 1000px;
+        max-width: 98%;
+        margin: 10vh auto 0 auto;
+      }
+
+      .aos-item {
+        display: inline-block;
+        float: left;
+        width: 29%;
+        height: 300px;
+        padding: 20px;
+      }
+
+      .aos-item__inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        float: left;
+        background: #186146;
+        line-height: 260px;
+        text-align: center;
+        color: #fff;
+        border-radius: 66%;
+      }
+
+      .swiper {
+        width: 100%;
+        height: 100%;
+      }
+
+      .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+      }
+
+    </style>
+    <script>
+        // 폰트스타일 스크립트
+        (function(d) {
+          var config = {
+            kitId: 'jls5ixb',
+            scriptTimeout: 3000,
+            async: true
+          },
+          h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+        })(document);
+
+        // top버튼
+        $(function () {
+
+        	// Show/hide the footer button
+        	$(window).scroll(function() {
+        		if ($(this).scrollTop() > 300) {
+        			$('.go-top').fadeIn(200);
+        		} else {
+        			$('.go-top').fadeOut(200);
+        		}
+        	});
+
+        	// Animate scrolling
+        	$('.go-top').click(function(e) {
+        		e.preventDefault();
+        		$('html, body').animate({scrollTop: 0}, 500, 'easeOutQuart');
+        	});
+
+        });
+
+        // 상단
+        document.addEventListener('DOMContentLoaded', function(){
+            var $window = window,
+                $body = document.querySelector('body'),
+                $header = document.querySelector('.page-header'),
+                $headerClone = $header.innerHTML,
+                $headerCloneContainer = document.createElement('div'),
+                $threshod = $header.offsetTop + $header.offsetHeight;
+
+                $headerCloneContainer.classList.add('page-header-clone');
+                $headerCloneContainer.innerHTML = $headerClone;
+                $body.appendChild($headerCloneContainer);
+
+                $window.addEventListener('scroll', function () {
+                    if ($window.pageYOffset > $threshod) {
+                        $headerCloneContainer.classList.add('visible');
+                    } else {
+                        $headerCloneContainer.classList.remove('visible');
+                    }
+                });
+
+        });//DOMContents Loaded
+
+
+
+         </script>
+
+      </script>
+  </head>
+
+  <body>
+
+    <header class="page-header" role="banner">
+        <div class="inner clearfix">
+            <h1 class="site-logo"><a href="./">ABC</a></h1>
+            <nav class="primary-nav" role="navigation">
+                <ul>
+                    <li><a href="./">About</a></li>
+                    <li><a href="./">Work</a></li>
+                    <li><a href="./">Blog</a></li>
+                    <li><a href="./">Recruit</a></li>
+                    <li><a href="./">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="content-area">
+      <div class="visual-area">
+        <video muted="" autoplay="" playsinline="" loop="" preload="auto" >
+          <source src="img/AdobeStock-Video.mp4" type="video/mp4" >
+        </video>
+      </div>
+      <div class="txt-h1">
+        나는 미래를 기다린적이 없다.<br>
+        나는 언제나 그 시대의 미래였다.
+        <div class="txt-h2" style="font-size:40px;">편지라면, 어설픔도 무기가 된다.</div>
+        <div class="txt-h3">여행의 힘을 믿으세요</div>
+      </div>
+    </div>
+
+    <div style="width:100%;margin-top:700px;height:700px;background:url(img/background.jpg) no-repeat 40% 50% / 100% auto;">
+        <div id="transcroller-body" class="aos-all">
+          <div style="font-family: yeonaesidae, sans-serif;font-size:45px;text-align:center;padding-top:30px;">
+          <p data-aos="fade-right">  여행의 힘을 믿으세요</p>
+          </div>
+          <div class="aos-item" data-aos="fade-up">
+            <div class="aos-item__inner"><h3>1</h3></div>
+          </div>
+          <div class="aos-item" data-aos="fade-up" data-aos-duration="500">
+            <div class="aos-item__inner"><h3>2</h3></div>
+          </div>
+          <div class="aos-item" data-aos="fade-up" data-aos-duration="1000">
+            <div class="aos-item__inner"><h3>3</h3></div>
+          </div>
+        </div>
+    </div>
+
+    <section style="display:block;height:700px;">
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" style="background-color:#afe4fa;">Slide 1</div>
+          <div class="swiper-slide">Slide 2</div>
+          <div class="swiper-slide">Slide 3</div>
+          <div class="swiper-slide">Slide 4</div>
+          <div class="swiper-slide">Slide 5</div>
+          <div class="swiper-slide">Slide 6</div>
+          <div class="swiper-slide">Slide 7</div>
+          <div class="swiper-slide">Slide 8</div>
+          <div class="swiper-slide">Slide 9</div>
+          <div class="swiper-slide">Slide 10</div>
+        </div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-scrollbar"></div>
+      </div>
+    </section>
+
+
+<section style="position:relative;height:500px;">
+
+</section>
+
+
+    <a href="#top" class="go-top" title="Back to Top">TOP</a><!--top버튼 -->
+  <!-- Initialize Swiper -->
+  <script src="js/swiper-bundle.min.js"></script>
+  <script type="module">
+
+    var swiper = new Swiper('.swiper', {
+      slidesPerView: 1,
+      spaceBetween: 10,
+      loop: true,
+
+      pagination: {
+        el: ".swiper-pagination",
+        type: "fraction",
+      },
+      scrollbar: {
+         el: ".swiper-scrollbar",
+         hide: true,
+       },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+
+  </script>
+
+    <script src="js/aos.js"></script>
+    <script>
+      AOS.init({
+        easing: 'ease-in-out-sine'
+      });
+    </script>
+  </body>
+</html>
