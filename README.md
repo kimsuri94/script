@@ -11,3 +11,5 @@ https://kimsuri94.github.io/script/JAVASCRIPT_tab/index.html
 https://kimsuri94.github.io/script/video/video.html
 
 https://kimsuri94.github.io/script/1mincoding-bbc-covid19/index.html
+
+https://kimsuri94.github.io/script/Interactive_section6_doors/index.html
