@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마우스 방향 감지 캡션 애니메이션</title>
+    <style>
+        img{
+            vertical-align: top;
+        }
+        ul{
+            display: flex;
+            width: 660px;
+            justify-content: space-between;
+            list-style:none;
+        }
+        figure{
+            width: 200px; 
+            position: relative;
+            overflow: hidden;
+        }
+        figcaption{
+            position: absolute;
+            left: 100%;
+            top:0;
+            width:100%;
+            height:100%;
+            background: rgba(0,0,0,0.5);
+            color:#fff;
+            font-size: 30px;
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 200px;            
+        }
+    </style>
+</head>
+<body>
+    <h1>mouse direction detection</h1>
+    <h2></h2>
+    <ul>
+        <li>    
+            <figure>
+                <img src="http://placehold.it/200x200" alt="">
+                <figcaption>title</figcaption>
+            </figure>
+        </li>
+        <li>    
+            <figure>
+                <img src="http://placehold.it/200x200" alt="">
+                <figcaption>title</figcaption>
+            </figure>
+        </li>
+        <li>    
+            <figure>
+                <img src="http://placehold.it/200x200" alt="">
+                <figcaption>title</figcaption>
+            </figure>
+        </li>
+    </ul>
+
+    <!--
+        clientX, clinetY 브라우저 화면 기준 마우스 위치(스크롤영역 제외)
+        offsetX, offsetY 이벤트가 일어난 그 요소
+        pageX, pageY 전체페이지를 기준 현재 마우스 위치
+        screenX, screenY 모니터 화면 기준 마우스 위치(스크롤영역 영역)
+    -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        var target = $('figure');        
+        var caption = target.find('figcaption');
+        var direction = '';
+        var animationTo;
+        var positionIn = {top:'0%', left:'0%'};
+
+
+        function moveCaption(e){
+            var $this = $(this);
+            direction = detectMouseDirection(e);
+            
+
+            /** do your animations here **/ 
+            var positionOut = (function(){
+                    switch(direction) {
+                    case 0:
+                    /** animations from the TOP **/
+                    return {top:'-100%', left:'0%'}
+                    break;
+                    case 1:
+                    /** animations from the RIGHT **/
+                    return {top:'0%', left:'100%'}
+                    break;
+                    case 2:
+                    /** animations from the BOTTOM **/
+                    return {top:'100%', left:'0%'}
+                    break;
+                    case 3:
+                    /** animations from the LEFT **/
+                    return {top:'0%', left:'-100%'}
+                    break;
+                }
+            })();
+
+            
+
+            //나갈때
+            // case 1 오른쪽으로 left 0->100% top 0 -> 0 /left 100% top 0
+            // case 0 위쪽으로 top 0 -> -100%, left 0 -> 0 / top -100% left 0
+            // case 3 왼쪽으로 left 0->-100% top 0 -> 0 /left -100% top 0
+            // case 2 아래쪽으로 left 0->0 top 0 -> 100% /left 0 top 100%
+
+            //들어올때
+            // case 1 오른쪽에서 안쪽 left 100%->0 top 0 -> 0 /left 0 top 0
+            // case 0 위쪽에서 안쪽 top -100% -> 0, left 0 -> 0 / top 0 left 0
+            // case 3 왼쪽에서 안쪽 left -100%->0 top 0 -> 0 /left 0 top 0
+            // case 2 아래쪽에서 안쪽 left 0->0 top 100% -> 0 /left 0 top 0
+
+           
+
+            if(e.type === 'mouseenter'){
+                animationTo = positionIn;
+                $this.find('figcaption').css(positionOut);
+
+            } else if(e.type === 'mouseleave'){
+                animationTo = positionOut;
+            }
+
+            console.log(positionOut,animationTo);
+
+            $this.find('figcaption').stop().animate(animationTo, 250);
+        }
+
+        function detectMouseDirection(e){
+            var el = $(e.currentTarget);
+            console.log(el);
+
+            var w = el.width();
+            var h = el.height();
+
+            var x = (e.pageX - el.offset().left - (w/2)) * ( w > h ? (h/w) : 1 );
+            var y = (e.pageY - el.offset().top  - (h/2)) * ( h > w ? (w/h) : 1 );
+
+            direction = Math.round((((Math.atan2(y, x) * (180 / Math.PI)) + 180 ) / 90 ) + 3 )  % 4;
+            console.log(direction);
+            return direction;            
+        }
+        target.on('mousemove mouseenter mouseleave', moveCaption);
+
+        /*
+        //함수 지정만. 이름이 있는 함수 기명함수
+        function add(x,y){
+            return x + y;
+        }
+        add(2,4);
+
+        var add = function(){
+            return x + y;
+        }
+        //함수지정 + 실행   즉시실행 함수
+        (function(){
+            //할일
+        })();
+
+        (function add(x,y){
+            return x + y;
+        })(2,4);
+        */
+    </script>
+</body>
+</html>
