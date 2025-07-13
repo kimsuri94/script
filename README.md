@@ -45,5 +45,5 @@ https://kimsuri94.github.io/script/SlidePushMenus/index.html
 https://kimsuri94.github.io/script/Top_menu/top_menu.html
 
 ## mobile
-https://kimsuri94.github.io/scroll/scroll.html
+https://kimsuri94.github.io/script/scroll/scroll.html
 
