@@ -39,6 +39,9 @@ https://kimsuri94.github.io/script/Interactive_section1-transform/05-animation.h
 ## 기타    
 https://kimsuri94.github.io/script/mouse_direction_animation/mouse_direction_animation_v2021.html
 
+## mobile
+추가추가
+
 
 ## Menu
 https://kimsuri94.github.io/script/SlidePushMenus/index.html                     
