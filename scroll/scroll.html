@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll Class Toggle</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #ffffff;
+            }
+
+            .my-div {
+                width: 300px;
+                height: 200px;
+                background-color: #007bff; /* 기본 배경색 (파란색) */
+                color: white;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                position: fixed; /* 화면 상단에 고정 */
+                top: 50px;
+                left: 50%;
+                transform: translateX(-50%);
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
+                z-index: 1000; /* 다른 콘텐츠 위에 표시 */
+            }
+
+            .my-div.scrolling {
+                background-color: #28a745; /* 스크롤 중에는 초록색으로 변경 */
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* 그림자 강조 */
+                transform: translateX(-50%) scale(1.05); /* 약간 확대 */
+            }
+
+            /* 스크롤 가능한 영역을 만들기 위한 더미 스타일 */
+            div + div { /* my-div 다음의 div (더미 콘텐츠) */
+                margin-top: 250px; /* 고정된 div 아래에 위치하도록 여백 추가 */
+            }
+        </style>
+</head>
+<body>
+    <div id="myDiv" class="my-div">
+        <h1>스크롤을 해보세요!</h1>
+        <p>스크롤 중에는 이 div에 'scrolling' 클래스가 추가됩니다.</p>
+        <p>스크롤이 멈추면 'scrolling' 클래스가 제거됩니다.</p>
+    </div>
+
+    <div style="height: 1500px; background-color: #f0f0f0; padding: 20px; text-align: center;">
+        <p>아래로 스크롤하여 기능을 테스트하세요.</p>
+        <p>Dummy content to enable scrolling.</p>
+    </div>
+
+ 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+        const myDiv = document.getElementById('myDiv');
+        let scrollTimeout; // 타이머 ID를 저장할 변수
+
+        // 스크롤 이벤트 리스너
+        window.addEventListener('scroll', () => {
+            // 1. div에 'scrolling' 클래스 추가
+            // 이미 'scrolling' 클래스가 있다면 다시 추가하지 않아도 되지만,
+            // 안전하게 매번 추가해도 무방합니다.
+            myDiv.classList.add('scrolling');
+
+            // 2. 기존 타이머가 있다면 취소
+            // 스크롤 이벤트가 계속 발생하면 이전 타이머를 취소하고 새로 설정합니다.
+            // 이렇게 하면 스크롤이 멈춘 시점부터 일정 시간이 지난 후에만 클래스가 제거됩니다.
+            if (scrollTimeout) {
+                clearTimeout(scrollTimeout);
+            }
+
+            // 3. 새로운 타이머 설정
+            // 스크롤이 멈춘 후 150ms (0.15초) 뒤에 'scrolling' 클래스를 제거하도록 설정
+            scrollTimeout = setTimeout(() => {
+                myDiv.classList.remove('scrolling');
+                // 선택 사항: 타이머가 만료되었으므로 변수 초기화
+                scrollTimeout = null;
+            }, 150); // 이 값(밀리초)을 조절하여 스크롤 멈춤 감지 시간을 설정할 수 있습니다.
+        });
+    });
+    </script>
+</body>
+</html>
