@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll Class Toggle</title>
+    
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh; /* 전체 화면 높이 사용 */
+            overflow: hidden; /* 컨테이너 스크롤 방지 */
+        }
+
+        .left-sidebar {
+            width: 200px;
+            background-color: #f8f8f8;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            overflow-y: auto; /* 좌측 메뉴 스크롤 가능하게 */
+        }
+
+        #left-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #left-menu li {
+            padding: 20px 20px;
+            cursor: pointer;
+            border-left: 5px solid transparent;
+            transition: background-color 0.3s, border-left-color 0.3s;
+        }
+
+        #left-menu li:hover {
+            background-color: #eee;
+        }
+
+        #left-menu li.active {
+            background-color: #e0f7fa; /* 활성화 배경색 */
+            border-left-color: #00bcd4; /* 활성화 테두리 색 */
+            font-weight: bold;
+            color: #00838f;
+        }
+
+        .right-content {
+            flex-grow: 1; /* 남은 공간 모두 사용 */
+            padding: 20px;
+            overflow-y: scroll; /* 우측 콘텐츠 스크롤 가능하게 */
+            scroll-behavior: smooth; /* 스크롤 부드럽게 */
+        }
+
+        .right-content section {
+            margin-bottom: 50px; /* 각 섹션 간의 여백 */
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="left-sidebar">
+            <ul id="left-menu">
+                <li data-target="kitchen-appliances" class="active">주방가전</li>
+                <li data-target="mobile-appliances">모바일가전</li>
+                <li data-target="health-appliances">건강가전</li>
+                <li data-target="season-appliances">시즌가전</li>
+                <li data-target="tech-home">테크·가전</li>
+                <li data-target="travel-books">여행·도서</li>
+                <li data-target="menu-1">메뉴1</li>
+                <li data-target="menu-2">메뉴2</li>
+                <li data-target="menu-3">메뉴3</li>
+                <li data-target="menu-4">메뉴4</li>
+                <li data-target="menu-5">메뉴5</li>
+            </ul>
+        </div>
+        <div class="right-content" id="right-content">
+            <section id="kitchen-appliances">
+                <h2>주방가전</h2>
+                <div style="height: 300px; background-color: #f0f0f0;"></div>
+            </section>
+            <section id="mobile-appliances">
+                <h2>모바일가전</h2>
+                <div style="height: 300px; background-color: #e0e0e0;"></div>
+            </section>
+            <section id="health-appliances">
+                <h2>건강가전</h2>
+                <div style="height: 400px; background-color: #d0d0d0;"></div>
+            </section>
+            <section id="season-appliances">
+                <h2>시즌가전</h2>
+                <div style="height: 500px; background-color: #c0c0c0;"></div>
+            </section>
+            <section id="tech-home">
+                <h2>테크·가전</h2>
+                <div style="height: 100px; background-color: #c0c0c0;"></div>
+            </section>
+            <section id="travel-books">
+                <h2>여행·도서</h2>
+                <div style="height: 500px; background-color: #b0b0b0;"></div>
+            </section>
+            <section id="menu-1">
+                <h2>메뉴1</h2>
+                <div style="height: 500px; background-color: #b0b0b0;"></div>
+            </section>
+            <section id="menu-2">
+                <h2>메뉴2</h2>
+                <div style="height: 500px; background-color: #b0b0b0;"></div>
+            </section>
+            <section id="menu-3">
+                <h2>메뉴3</h2>
+                <div style="height: 500px; background-color: #b0b0b0;"></div>
+            </section>
+            <section id="menu-4">
+                <h2>메뉴4</h2>
+                <div style="height: 500px; background-color: #b0b0b0;"></div>
+            </section>
+            <section id="menu-5">
+                <h2>메뉴5</h2>
+                <div style="height: 500px; background-color: #b0b0b0;"></div>
+            </section>
+        </div>
+    </div>
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const leftMenu = document.getElementById('left-menu');
+        const rightContent = document.getElementById('right-content');
+        const sections = rightContent.querySelectorAll('section'); // NodeList (유사 배열)
+
+        // 좌측 메뉴 클릭 시 해당 섹션으로 스크롤 이동
+        leftMenu.addEventListener('click', function(event) {
+            const clickedLi = event.target.closest('li'); // 클릭된 <li> 요소 찾기
+            if (clickedLi && clickedLi.dataset.target) {
+                const targetId = clickedLi.dataset.target; // data-target 속성 값 가져오기
+                const targetSection = document.getElementById(targetId);
+
+                if (targetSection) {
+                    // rightContent의 상단 위치
+                    const rightContentTop = rightContent.getBoundingClientRect().top;
+                    // targetSection의 rightContent 내에서의 상대 위치
+                    // targetSection의 문서 상단 위치 - rightContent의 문서 상단 위치 + rightContent의 현재 스크롤 위치
+                    const offset = targetSection.getBoundingClientRect().top - rightContentTop + rightContent.scrollTop;
+
+                    // smooth scroll (폴리필 필요 없으면 scrollIntoView() 또는 animate() 사용 가능)
+                    rightContent.scrollTo({
+                        top: offset,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+
+        // 우측 콘텐츠 스크롤 시 좌측 메뉴 활성화
+        rightContent.addEventListener('scroll', function() {
+            const scrollPos = rightContent.scrollTop; // 현재 스크롤 위치
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop; // 섹션의 현재 스크롤 컨테이너 내에서의 위치
+                const sectionHeight = section.offsetHeight; // 섹션의 높이
+
+                // 섹션이 스크롤 영역에 충분히 들어왔을 때 활성화
+                // 여기서는 섹션 상단이 스크롤 위치보다 위에 있고, 섹션의 2/3 정도가 보일 때 활성화하도록 설정
+                // 100은 조정 값 (섹션이 완전히 보이기 전에 활성화)
+                if (scrollPos >= sectionTop - 100 && scrollPos < sectionTop + sectionHeight - 100) {
+                    const targetId = section.id;
+
+                    // 모든 메뉴 비활성화
+                    const allMenuItems = leftMenu.querySelectorAll('li');
+                    allMenuItems.forEach(item => {
+                        item.classList.remove('active');
+                    });
+
+                    // 해당 메뉴 활성화
+                    const activeMenuItem = leftMenu.querySelector(`li[data-target="${targetId}"]`);
+                    if (activeMenuItem) {
+                        activeMenuItem.classList.add('active');
+                    }
+                }
+            });
+        });
+
+        // 초기 로드 시 현재 스크롤 위치에 맞춰 초기 활성화
+        // DOMContentLoaded 시점에 스크롤 이벤트 강제 발생
+        rightContent.dispatchEvent(new Event('scroll'));
+    });
+
+</script>
+</html>
