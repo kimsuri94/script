@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>25 Years of Web Publishing & Design | KIMSURI</title>
+    <style>
+
+@font-face {
+    font-family: "Pretendard";
+    font-weight: 900;
+    src: url(pre/Pretendard-Black.woff) format('woff');
+}
+@font-face {
+    font-family: "Pretendard";
+    font-weight: 800;
+    src: url(font/Pretendard-ExtraBold.woff) format('woff');
+}
+@font-face {
+    font-family: "Pretendard";
+    font-weight: 700;
+    src: url(font/Pretendard-Bold.woff) format('woff');
+}
+@font-face {
+    font-family: "Pretendard";
+    font-weight: 600;
+    src: url(font/Pretendard-SemiBold.woff) format('woff');
+}
+@font-face {
+    font-family: "Pretendard";
+    font-weight: 500;
+    src: url(font/Pretendard-Medium.woff) format('woff');
+}
+@font-face {
+    font-family: "Pretendard";
+    font-weight: 400;
+    src: url(font/Pretendard-Regular.woff) format('woff');
+}
+@font-face {
+    font-family: "Pretendard";
+    font-weight: 300;
+    src: url(font/Pretendard-Light.woff) format('woff');
+}
+@font-face {
+    font-family: "Pretendard";
+    font-weight: 200;
+    src: url(font/Pretendard-ExtraLight.woff) format('woff');
+}
+@font-face {
+    font-family: "Pretendard";
+    font-weight: 100;
+    src: url(font/Pretendard-Thin.woff) format('woff');
+}
+
+        :root {
+            --bg-color: #F3E22F; 
+            --transition-speed: 0.5s;
+        }
+
+        body, html { 
+            margin: 0; padding: 0; 
+            font-family: 'Pretendard', sans-serif; 
+            font-weight: 400;
+            background-color: #f5f5f5;
+            scroll-behavior: smooth;
+            font-size: 62.5%;
+        }
+        ul, li { list-style: none; padding: 0; margin: 0; }
+        h2, p {padding: 0; margin: 0;}
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 20px 50px; box-sizing: border-box;
+            z-index: 100;
+        }
+        header > .nav { display: flex; gap: 30px; font-weight: 700; font-size: 1.5rem;}
+
+        /* Section 1: Hero */
+        .section-1 {
+            width: 100%; height: 100vh;
+            background-color: var(--bg-color);
+            background-image: url("images/top_bg.png");
+            background-repeat: repeat;
+            background-position: center;
+            background-size: cover;
+            transition: background-color var(--transition-speed) ease;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+        }
+        .section-1 .inner { width: 100%; height: 100%; position: relative; }
+                /* 테마 변경 시 페이드 효과 */
+        .fade-out { opacity: 0; transform: scale(0.95); }
+        .bg-text-wrap { position: absolute; width: 100%; top: 15%; overflow: hidden; white-space: nowrap; text-align: center; }
+        .bg-text { font-size: 7.5vw; font-weight: 500; color: rgba(0,0,0,0.8); margin: 0; letter-spacing: -5px; line-height: 1.1; }
+        .bottle-wrapper { position: absolute; left: 50%; top: 68%; transform: translate(-50%, -50%); z-index: 10; animation: floatBottle 3s ease-in-out infinite; }
+        @keyframes floatBottle { 0%, 100% { transform: translate(-50%, -50%); } 50% { transform: translate(-50%, -60%); } }
+        .main-bottle { height: 35vh; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.2)); }
+        .character { position: absolute; right: -80px; top: 10%; width: 150px; transform: rotate(10deg); }
+        .info-content { position: absolute; left: 30%; bottom: 10%; z-index: 20; }
+        .info-content > .abv{font-size: 2rem;}
+        .info-content > .title{ font-size: 8rem; line-height: 6rem; padding-bottom: 2rem;}
+        .info-content > .desc{ font-size: 3rem;padding-bottom:1rem;}
+        .info-content > .btn-more{font-size: 1.5rem;border:1px solid #000;background-color: #000;color:#fff;}
+        .flavor-nav { position: absolute; right: 20%; bottom: 10%; z-index: 20; }
+        .flavor-item { width: 45px; height: 45px; font-size: 2rem; font-weight: 600; border-radius: 50%; background: #fff; margin: 15px 0; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .flavor-item.active { transform: scale(1.3); border: 2px solid #000; background-color: #000; color:#fff; }
+
+        /* Section 2: Portfolio Grid */
+        .section-2 { padding: 100px 0; background: #fff; }
+        .gallery-container { max-width: 1200px; margin: 0 auto; position: relative; }
+        #grid { position: relative; width: 100%; margin: 0 auto; }
+        .grid-item { position: absolute; width: 300px; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s, left 0.5s, top 0.5s; }
+        .grid-item:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .img-wrap { position: relative; width: 100%; overflow: hidden; background: #eee; }
+        .img-wrap img { width: 100%; display: block; }
+        .menu-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); opacity: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; }
+        .grid-item:hover .menu-overlay { opacity: 1; }
+        .menu-overlay a { color: #fff; text-decoration: none; border: 1px solid #fff; padding: 8px 15px; border-radius: 4px; font-size: 13px; }
+
+        /* Section 3: Scrollytelling (Cass) */
+        .section-3 { position: relative; background: #f4f4f4; }
+        .scrolly-wrapper { display: flex; flex-direction: row-reverse; position: relative; }
+        .sticky-content { flex: 1; height: 100vh; position: sticky; top: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .image-stack { position: relative; width: 80%; height: 70%; }
+        .img-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transform: scale(1.1); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 20px; overflow: hidden; }
+        .img-layer.active { opacity: 1; transform: scale(1); z-index: 2; }
+        .img-layer img { width: 100%; height: 100%; object-fit: cover; }
+        .scroll-text { flex: 1; }
+        .step { height: 100vh; display: flex; align-items: center; padding: 0 15%; opacity: 0.1; transition: 0.8s; }
+        .step.onShow { opacity: 1; }
+        .step h2 { font-size: 3.5rem; margin-bottom: 20px; }
+
+        @media (max-width: 768px) {
+            .scrolly-wrapper { flex-direction: column; }
+            .sticky-content { height: 40vh; }
+            .step { height: 60vh; padding: 0 10%; }
+        }
+
+        .section-marquee {
+            width: 100%;
+            overflow: hidden;
+            background-color: #6a35ff; /* 이미지의 보라색 계열 */
+            padding: 25px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .marquee-wrapper {
+            display: flex;
+            width: fit-content;
+        }
+
+        .marquee-content {
+            display: flex;
+            white-space: nowrap;
+            /* 좌측에서 우측으로 흐르게 설정 */
+            animation: scroll-left-to-right 30s linear infinite;
+        }
+
+        .marquee-content span {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            padding: 0 20px;
+            letter-spacing: -0.5px;
+        }
+
+        /* 좌측에서 우측으로 무한 루프 애니메이션 */
+        @keyframes scroll-left-to-right {
+            0% {
+                transform: translateX(-50%); /* 전체 길이의 절반만큼 뒤에서 시작 */
+            }
+            100% {
+                transform: translateX(0%); /* 끝까지 밀어냄 */
+            }
+        }
+
+        /* 마우스를 올리면 잠시 멈추는 효과 (선택 사항) */
+        .section-marquee:hover .marquee-content {
+            animation-play-state: paused;
+        }
+        @media (max-width: 768px) {
+            .marquee-content span {
+                font-size: 1.1rem;
+            }
+        }
+
+
+        /* 레이어 팝업 */
+        /* 팝업 레이아웃 */
+.popup-overlay {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* 배경 어둡게 */
+    backdrop-filter: blur(5px);    /* 배경 흐리게(선택사항) */
+    z-index: 9999;
+    display: none; /* 기본은 숨김 */
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-content {
+    background: #fff;
+    width: 90%;
+    max-width: 450px;
+    padding: 40px 30px;
+    border-radius: 24px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    transform: translateY(30px);
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* 팝업 활성화 시 애니메이션 */
+.popup-overlay.active { display: flex; }
+.popup-overlay.active .popup-content { transform: translateY(0); }
+
+.popup-close {
+    position: absolute; top: 20px; right: 20px;
+    background: none; border: none; font-size: 32px;
+    cursor: pointer; color: #999;
+}
+
+.popup-body h2 {
+    font-size: 1.8rem; font-weight: 800; margin-bottom: 15px;
+    color: #111; letter-spacing: -1px;
+}
+
+.popup-body #pop-desc {
+    font-size: 1rem; line-height: 1.6; color: #666;
+    margin-bottom: 30px; word-break: keep-all;
+}
+
+.btn-confirm {
+    width: 100%; padding: 15px;
+    background: #111; color: #fff;
+    border: none; border-radius: 12px;
+    font-weight: 600; cursor: pointer; transition: 0.3s;
+}
+
+.btn-confirm:hover { background: #444; }
+
+/* 팝업 오픈 시 스크롤 방지 */
+body.scroll-lock { overflow: hidden; }
+    </style>
+</head>
+<body>
+    <header>
+        <ul class="nav">            
+            <li>Work</li>
+            <li>Text</li>
+            <li>About</li>
+            <li>Contact</li>
+        </ul>
+    </header>
+
+    <section class="section-1 main-container"> 
+        <div class="inner" id="hero-inner">
+            <div class="bg-text-wrap">
+                <p class="bg-text"  id="target-bg-text">Web Publishing & <br>Design Specialist</p>
+            </div>
+            <div class="visual-section">
+                <div class="bottle-wrapper">
+                    <img src="images/top_center_01.png" alt="이미지" class="main-bottle" id="target-bottle">
+                    <img src="images/top_center_02.png" alt="이미지" class="character" id="target-char">
+                </div>
+            </div>
+            <article class="info-content">
+                <span class="abv">KIMSURI</span>
+                <h2 class="title" id="target-title">work</h2>
+                <p class="desc" id="target-desc">디자인과 코드의 완벽한 조화, 퍼블리셔</p>
+                <button class="btn-more">더 보기</button>
+            </article>
+            <div class="flavor-nav">
+                <ul class="flavor-list">
+                    <li class="flavor-item active" data-theme="lemon" data-color="#F3E22F" title="work" role="button">W</li>
+                    <li class="flavor-item" data-theme="grapefruit" data-color="#F26E6E" title="text" role="button">T</li>
+                    <li class="flavor-item" data-theme="green-grape" data-color="#A8D15B" title="about" role="button">A</li>
+                    <li class="flavor-item" data-theme="strawberry" data-color="#6ab5e5" title="contact" role="button">C</li>
+                </ul> 
+            </div>
+        </div>
+    </section>
+
+    <section class="section-2">
+        <div class="gallery-container">
+            <ul id="grid"></ul>
+        </div>
+    </section>
+
+    <section class="section-3">
+        <div class="scrolly-wrapper">
+            <div class="sticky-content">
+                <div class="image-stack">
+                    <div class="img-layer active" data-index="1"><img src="https://www.cass.co.kr/_nuxt/sec2_thumb5.DV2rEXQ2.jpg" alt=""></div>
+                    <div class="img-layer" data-index="2"><img src="https://www.cass.co.kr/_nuxt/sec2_thumb1.0H6-Lf3z.jpg" alt=""></div>
+                    <div class="img-layer" data-index="3"><img src="https://www.cass.co.kr/_nuxt/sec2_thumb0.DMUR7Zwb.jpg" alt=""></div>
+                </div>
+            </div>
+            <div class="scroll-text">
+                <section class="step" data-index="1">
+                    <div class="inner">
+                        <h2>Cass Lemon 7.0</h2>
+                        <p>7.0도로 즐기는 강렬한 상큼함.<br>레몬 스퀴즈의 짜릿한 맛을 느껴보세요.</p>
+                        <a href="#" class="btn-more">더보기</a>
+                    </div>
+                </section>
+                <section class="step" data-index="2">
+                    <div class="inner">
+                        <h2>Cass Light</h2>
+                        <p>칼로리는 낮게, 맛은 그대로.<br>부담 없이 즐기는 라이트한 순간.</p>
+                        <a href="#" class="btn-more">더보기</a>
+                    </div>
+                </section>
+                <section class="step" data-index="3">
+                    <div class="inner">
+                        <h2>Cass Fresh</h2>
+                        <p>대한민국 대표 맥주 카스 프레시.<br>어떠한 순간에도 변하지 않는 신선함.</p>
+                        <a href="#" class="btn-more">더보기</a>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-marquee">
+        <div class="marquee-wrapper">
+            <div class="marquee-content">
+                <span>믿고 맡기는 홈페이지 외주 · FRUTA · 기획부터 유지보수까지 · FRUTA · </span>
+                <span>믿고 맡기는 홈페이지 외주 · FRUTA · 기획부터 유지보수까지 · FRUTA · </span>
+                <span>믿고 맡기는 홈페이지 외주 · FRUTA · 기획부터 유지보수까지 · FRUTA · </span>
+                <span>믿고 맡기는 홈페이지 외주 · FRUTA · 기획부터 유지보수까지 · FRUTA · </span>
+            </div>
+        </div>
+    </section>
+
+<!--  레이어팝업 -->
+<div id="common-popup" class="popup-overlay">
+    <div class="popup-content">
+        <button class="popup-close" id="close-pop-btn">&times;</button>
+        <div class="popup-body">
+            <h2 id="pop-title">팝업 제목</h2>
+            <div id="pop-desc">
+                팝업의 상세 내용이 여기에 표시됩니다.
+            </div>
+            <button class="btn-confirm" id="confirm-pop-btn">확인</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // [1] 데이터 정의
+    const exhibitions = [
+        { title: "천년을 흘러온 시간", date: "2025-12-18", imgUrl: "https://picsum.photos/300/400" },
+        { title: "RE:BORN 보존과학", date: "2025-12-03", imgUrl: "https://picsum.photos/300/200" },
+        { title: "연구아카이브 전시 '모으다'", date: "2025-10-01", imgUrl: "https://picsum.photos/300/500" },
+        { title: "창덕궁의 벽화", date: "2025-08-14", imgUrl: "https://picsum.photos/300/350" },
+        { title: "창덕궁의 벽화 2", date: "2025-08-14", imgUrl: "https://picsum.photos/300/300" }
+    ];
+
+  // [1] 클릭 시 바뀔 테마 데이터 정의
+    const themeData = {
+        'lemon': {
+            color: '#F3E22F',
+            title: 'work',
+            desc: '디자인과 코드의 완벽한 조화, 퍼블리셔',
+            bgText: 'Web Publishing & <br> Design Specialist',
+            bottle: 'images/top_center_01.png',
+            char: 'images/top_center_02.png'
+        },
+        'grapefruit': {
+            color: '#F26E6E',
+            title: 'text',
+            desc: '웹의 역사와 함께 성장해온 25년의 노하우',
+            bgText: '25 Years of <br> Digital Craftsmanship',
+            bottle: 'images/top_center_03.png', // 실제 파일 경로로 수정
+            char: 'images/top_center_04.png'      // 실제 파일 경로로 수정
+        },
+        'green-grape': {
+            color: '#A8D15B',
+            title: 'about',
+            desc: '믿고 맡기는 퍼블리싱 파트너',
+            bgText: 'Digital Architect<br> KIMSURI',
+            bottle: 'images/top_center_05.png',      // 실제 파일 경로로 수정
+            char: 'images/top_center_06.png'       // 실제 파일 경로로 수정
+        },
+        'strawberry': {
+            color: '#A8D15B',
+            title: 'contact',
+            desc: '트렌드는 바뀌어도 본질은 변하지 않습니다.',
+            bgText: 'A Quarter Century of Expertise,<br> Ready for Your Next Vision',
+            bottle: 'images/top_center_07.png',      // 실제 파일 경로로 수정
+            char: 'images/top_center_07.png'       // 실제 파일 경로로 수정
+        }
+    };
+
+    // [2] 초기화 및 이벤트 통합
+    document.addEventListener('DOMContentLoaded', () => {
+
+
+         // [2] 테마 변경 클릭 인터랙션
+        const heroInner = document.getElementById('hero-inner');
+        const bottleImg = document.getElementById('target-bottle');
+        const charImg = document.getElementById('target-char');
+        const titleText = document.getElementById('target-title');
+        const descText = document.getElementById('target-desc');
+        const bgText = document.getElementById('target-bg-text');
+
+
+        document.querySelectorAll('.flavor-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const theme = this.dataset.theme;
+                const data = themeData[theme];
+
+                // 버튼 활성화 표시
+                document.querySelector('.flavor-item.active').classList.remove('active');
+                this.classList.add('active');
+
+                // 페이드 아웃 시작
+                heroInner.classList.add('fade-out');
+
+                setTimeout(() => {
+                    // 데이터 교체
+                    document.querySelector('.main-container').style.setProperty('--bg-color', data.color);
+                    bottleImg.src = data.bottle;
+                    charImg.src = data.char;
+                    titleText.innerText = data.title;
+                    descText.innerText = data.desc;
+                    bgText.innerHTML = data.bgText;
+
+                    // 페이드 인
+                    heroInner.classList.remove('fade-out');
+                }, 300);
+            });
+        });
+
+        // [3] 기존 히어로 섹션 패럴랙스
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            if (scrollY < window.innerHeight) {
+                const opacity = 1 - (scrollY / 700);
+                const scale = 1 + (scrollY / 3000);
+                heroInner.style.opacity = opacity;
+                heroInner.style.transform = `scale(${scale}) translateY(${scrollY * 0.3}px)`;
+            }
+        });
+
+        // // B. 테마 컬러 변경
+        // document.querySelectorAll('.flavor-item').forEach(item => {
+        //     item.addEventListener('click', function() {
+        //         document.querySelector('.flavor-item.active').classList.remove('active');
+        //         this.classList.add('active');
+        //         const newColor = this.dataset.color;
+        //         document.querySelector('.main-container').style.setProperty('--bg-color', newColor);
+        //     });
+        // });
+        
+
+        // C. 메이슨리 아이템 생성
+        const grid = document.getElementById('grid');
+        exhibitions.forEach(item => {
+            const li = document.createElement('li');
+            li.className = 'grid-item';
+            li.innerHTML = `
+                <div class="img-wrap"><img src="${item.imgUrl}" alt="">
+                    <div class="menu-overlay"><a href="#">VIEW</a></div>
+                </div>
+                <div class="item-info"><h3>${item.title}</h3><span>${item.date}</span></div>`;
+            grid.appendChild(li);
+        });
+
+        // D. 스크롤리텔링 관찰자 (Section 3 핵심)
+        const steps = document.querySelectorAll('.step');
+        const images = document.querySelectorAll('.img-layer');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -40% 0px', // 화면 하단에서 40% 지점 위로 오면 트리거
+            threshold: 0.2
+        };
+
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const idx = entry.target.dataset.index;
+                    steps.forEach(s => s.classList.remove('onShow'));
+                    entry.target.classList.add('onShow');
+
+                    images.forEach(img => {
+                        img.classList.toggle('active', img.dataset.index === idx);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        steps.forEach(step => io.observe(step));
+
+    });
+
+    // E. 메이슨리 레이아웃 계산 (이미지 로드 후 실행)
+    window.addEventListener('load', applyMasonryLayout);
+    window.addEventListener('resize', applyMasonryLayout);
+
+    function applyMasonryLayout() {
+        const container = document.getElementById('grid');
+        const items = document.querySelectorAll('.grid-item');
+        if (!container || items.length === 0) return;
+
+        const itemWidth = 300;
+        const gap = 20;
+        const cols = Math.floor(container.offsetWidth / (itemWidth + gap)) || 1;
+        const colHeights = new Array(cols).fill(0);
+        const offsetX = (container.offsetWidth - (cols * itemWidth + (cols - 1) * gap)) / 2;
+
+        items.forEach((item, i) => {
+            const minCol = colHeights.indexOf(Math.min(...colHeights));
+            item.style.left = `${offsetX + minCol * (itemWidth + gap)}px`;
+            item.style.top = `${colHeights[minCol]}px`;
+            colHeights[minCol] += item.offsetHeight + gap;
+        });
+        container.style.height = `${Math.max(...colHeights)}px`;
+    }
+
+
+        // 팝업 제어 함수
+        const Popup = {
+            open: function(title, desc) {
+                const pop = document.getElementById('common-popup');
+                document.getElementById('pop-title').innerHTML = title;
+                document.getElementById('pop-desc').innerHTML = desc;
+                
+                pop.classList.add('active');
+                document.body.classList.add('scroll-lock');
+            },
+            close: function() {
+                const pop = document.getElementById('common-popup');
+                pop.classList.remove('active');
+                document.body.classList.remove('scroll-lock');
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 닫기 버튼 이벤트
+            document.getElementById('close-pop-btn').addEventListener('click', Popup.close);
+            document.getElementById('confirm-pop-btn').addEventListener('click', Popup.close);
+            
+            // 배경 클릭 시 닫기
+            document.getElementById('common-popup').addEventListener('click', (e) => {
+                if(e.target.id === 'common-popup') Popup.close();
+            });
+
+            // --- 기존 버튼들에 팝업 연결 예시 ---
+
+            // 1. 히어로 섹션 '더 보기' 버튼
+            document.querySelector('.btn-more').addEventListener('click', function() {
+                const currentTitle = document.getElementById('target-title').innerText;
+                Popup.open(currentTitle, `현재 선택하신 <b>${currentTitle}</b>에 대한 상세 정보입니다.<br>25년 경력의 디자인 노하우가 담긴 특별한 에디션을 만나보세요.`);
+            });
+
+            // 2. 포트폴리오(메이슨리) 아이템 클릭 시 (동적 생성된 요소이므로 이벤트 위임)
+            document.getElementById('grid').addEventListener('click', function(e) {
+                const viewBtn = e.target.closest('a');
+                if(viewBtn) {
+                    e.preventDefault();
+                    const itemTitle = viewBtn.closest('.grid-item').querySelector('h3').innerText;
+                    Popup.open(itemTitle, "해당 프로젝트의 상세 포트폴리오 데이터를 불러오고 있습니다.");
+                }
+            });
+
+            // 3. 섹션 3 카스 버튼들
+            document.querySelectorAll('.section-3 .btn-more').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const stepTitle = btn.closest('.inner').querySelector('h2').innerText;
+                    Popup.open(stepTitle, "카스의 신선함을 담은 프로젝트 상세 페이지입니다.");
+                });
+            });
+        });
+</script>
+</body>
+</html>
