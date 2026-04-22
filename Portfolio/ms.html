@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전시 갤러리 JS 레이아웃 (좌우 순서 고정)</title>
+    <style>
+        /* 기본 스타일 초기화 */
+        ul, li {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Malgun Gothic', sans-serif;
+        }
+
+        .gallery-container {
+            max-width: 1800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* 조적식 레이아웃 컨테이너 */
+        .grid-container {
+            position: relative; 
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* 개별 리스트 아이템 (카드) */
+        .grid-item {
+            position: absolute;
+            width: 300px;
+            background: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: left 0.3s ease, top 0.3s ease, box-shadow 0.3s;
+        }
+
+        .grid-item:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* --- 이미지 영역 및 오버레이 메뉴 스타일 --- */
+        .img-wrap {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            background-color: #e0e0e0;
+        }
+
+        .img-wrap img {
+            width: 100%;
+            display: block;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .menu-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(30, 35, 45, 0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .grid-item:hover .menu-overlay,
+        .grid-item:focus-within .menu-overlay {
+            opacity: 1;
+        }
+
+        .grid-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .menu-overlay a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 80%;
+            padding: 14px 0;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 6px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .menu-overlay a:hover,
+        .menu-overlay a:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #ffffff;
+            outline: none;
+        }
+
+        .menu-overlay svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* --- 텍스트 정보 영역 --- */
+        .item-info {
+            padding: 20px 15px;
+            background: #fff;
+            position: relative;
+            z-index: 5;
+        }
+
+        .item-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #222;
+            margin: 0 0 8px 0;
+            line-height: 1.4;
+        }
+
+        .item-date {
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery-container">
+        <ul class="grid-container" id="grid"></ul>
+    </div>
+
+    <script>
+        // 임시 더미 데이터 (이미지가 없을 때 텍스트 길이 차이로 인한 정렬 테스트용)
+        const exhibitions = [
+            {
+                title: "천년을 흘러온 시간",
+                date: "2025-12-18 ~ 2026-02-22",
+                imgUrl: "dumy01.jpg" 
+            },
+            {
+                title: "RE:BORN, 시간을 잇는 보존과학",
+                date: "2025-12-03 ~ 2026-03-02",
+                imgUrl: "dumy01.jpg"
+            },
+            {
+                title: "연구아카이브 전시 '모으다, 이어가다'가나다라마바사아자차가카아사아",
+                date: "2025-10-01 ~ 2025-11-30",
+                imgUrl: "dumy01.jpg"
+            },
+            {
+                title: "창덕궁의 근사한 벽화",
+                date: "2025-08-14 ~ 2025-10-12",
+                imgUrl: "dumy01.jpg" 
+            },
+            {
+                title: "창덕궁의 근사한 벽화 2",
+                date: "2025-08-14 ~ 2025-10-12",
+                imgUrl: "dumy01.jpg" 
+            },
+            {
+                title: "연구아카이브 전시 '모으다, 이어가다'가나다라마바사아자차가카아사아",
+                date: "2025-10-01 ~ 2025-11-30",
+                imgUrl: "dumy01.jpg" 
+            },
+            {
+                title: "창덕궁의 근사한 벽화 3",
+                date: "2025-08-14 ~ 2025-10-12",
+                imgUrl: "dumy01.jpg"
+            }
+        ];
+
+        const iconEye = `<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+        const iconVR = `<svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>`;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const listElement = document.getElementById('grid');
+
+            exhibitions.forEach((item) => {
+                const li = document.createElement('li');
+                li.className = 'grid-item';
+
+                // 이미지가 없을 경우 img-wrap 영역을 숨기도록 처리
+                const imgTag = item.imgUrl ? `<img src="${item.imgUrl}" alt="">` : `<div style="height: 10px;"></div>`;
+
+                li.innerHTML = `
+                    <div class="img-wrap">
+                        ${imgTag}
+                        <div class="menu-overlay">
+                            <a href="#none" title="${item.title} 콘텐츠 바로가기">
+                                ${iconEye} 콘텐츠 바로가기
+                            </a>
+                            <a href="#none" title="${item.title} VR 바로가기">
+                                ${iconVR} VR 바로가기
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="item-info">
+                        <h3 class="item-title">${item.title}</h3>
+                        <span class="item-date">${item.date}</span>
+                    </div>
+                `;
+
+                listElement.appendChild(li);
+            });
+
+            // 사이즈 변경 감지
+            const observer = new ResizeObserver(() => {
+                applyMasonryLayout();
+            });
+
+            const items = document.querySelectorAll('.grid-item');
+            items.forEach(item => {
+                observer.observe(item);
+            });
+
+            applyMasonryLayout();
+        });
+
+        // [핵심 변경 사항] 좌우 순서를 무조건 보장하는 레이아웃 계산
+        function applyMasonryLayout() {
+            const container = document.getElementById('grid');
+            const items = document.querySelectorAll('.grid-item');
+            
+            if (items.length === 0) return;
+
+            const itemWidth = 300;
+            const gap = 20; 
+            const columnWidth = itemWidth + gap; 
+            
+            let columns = Math.floor(container.offsetWidth / columnWidth);
+            if (columns === 0) columns = 1; 
+            
+            const contentWidth = (columns * itemWidth) + ((columns - 1) * gap);
+            const offsetX = (container.offsetWidth - contentWidth) / 2;
+
+            let columnHeights = new Array(columns).fill(0); 
+
+            // 요소의 인덱스(index)를 활용하여 강제로 순서를 지정합니다.
+            items.forEach((item, index) => {
+                // 기존 방식: let minHeight = Math.min(...columnHeights); 
+                // 변경 방식: 순서대로(0, 1, 2, 3...) 열을 지정
+                let columnIndex = index % columns;
+
+                let leftPos = offsetX + (columnIndex * columnWidth);
+                let topPos = columnHeights[columnIndex]; // 현재 해당 열의 누적 높이가 y좌표가 됨
+
+                item.style.left = `${leftPos}px`;
+                item.style.top = `${topPos}px`;
+
+                // 해당 열의 누적 높이 업데이트
+                columnHeights[columnIndex] += item.offsetHeight + gap; 
+            });
+
+            let maxHeight = Math.max(...columnHeights);
+            container.style.height = `${maxHeight}px`;
+        }
+
+        window.addEventListener('resize', applyMasonryLayout);
+        window.addEventListener('load', applyMasonryLayout);
+    </script>
+</body>
+</html>
