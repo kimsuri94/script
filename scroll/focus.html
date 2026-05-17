@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Javascript Demo</title>
+<style>
+/* 1. 모달의 기본 스타일 (처음엔 숨김) */
+.modal {
+    display: none; /* 중요! 기본적으로 모달을 숨깁니다 */
+    position: fixed; /* 뷰포트에 고정 */
+    z-index: 1; /* 다른 요소 위에 표시 */
+    left: 0;
+    top: 0;
+    width: 100%; /* 전체 너비 */
+    height: 100%; /* 전체 높이 */
+    overflow: auto; /* 내용이 넘칠 경우 스크롤 허용 */
+    background-color: rgba(0,0,0,0.4); /* 반투명 검은색 배경 */
+}
+
+/* 2. 모달 내용 상자 스타일 */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 상단 15%, 중앙 정렬 */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* 모달 상자의 너비 */
+    max-width: 500px;
+    border-radius: 8px;
+}
+
+/* 3. 닫기 버튼 스타일 */
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+  
+
+ <button id="openModalBtn">모달 열기</button>
+
+    <div id="myModal" class="modal">
+
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>안녕하세요! 모달 팝업입니다.</h2>
+            <p>여기에 팝업 내용을 넣으세요.</p>
+        </div>
+
+    </div>
+
+    <script>
+        // 필요한 DOM 요소들을 가져옵니다.
+        const modal = document.getElementById('myModal');
+        const openBtn = document.getElementById('openModalBtn');
+        const closeBtn = document.querySelector('.close-btn');
+        const body = document.body; // HTML body 요소를 가져옵니다.
+
+        // ---------------------------
+        // 1. 모달 열기 함수 (inert 추가)
+        // ---------------------------
+        function openModal() {
+            // 1. 모달 표시
+            modal.style.display = 'block';
+
+            // 2. 접근성 향상을 위해 body 태그에 inert 속성을 추가합니다.
+            // -> 모달 뒤의 모든 콘텐츠를 비활성화하여 접근 불가능하게 만듭니다.
+            // -> 단, 모달 요소 자체는 활성화 상태로 유지해야 하므로,
+            // body에 inert를 추가한 뒤 모달에서 inert를 제거하는 방식(아래)을 사용합니다.
+            modal.setAttribute('inert', '');
+
+            // 3. 모달 자체에는 inert가 적용되지 않도록 제거합니다 (body의 inert 상속 방지)
+            // modal.removeAttribute('inert');
+        }
+
+
+        // ---------------------------
+        // 2. 모달 닫기 함수 (inert 제거)
+        // ---------------------------
+        function closeModal() {
+            // 1. 모달 숨김
+            modal.style.display = 'none';
+
+            // 2. body 태그에서 inert 속성을 제거하여 나머지 콘텐츠를 활성화합니다.
+            body.removeAttribute('inert');
+
+            // 3. (선택적) 모달을 숨겼으니 모달 자체에 다시 inert를 추가해둘 수도 있습니다.
+            // modal.setAttribute('inert', '');
+        }
+
+
+        // ---------------------------
+        // 3. 이벤트 리스너 연결
+        // ---------------------------
+
+        // "모달 열기" 버튼 클릭 시
+        openBtn.addEventListener('click', openModal);
+
+        // 모달 내의 'x' (닫기) 버튼 클릭 시
+        closeBtn.addEventListener('click', closeModal);
+
+        // 모달 외부(반투명 배경) 클릭 시
+        window.addEventListener('click', (event) => {
+            // 클릭된 요소가 모달 자체(배경)인지 확인합니다.
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+    <!--
+    script>
+        // 필요한 DOM 요소들을 가져옵니다.
+            const modal = document.getElementById('myModal');
+            const openBtn = document.getElementById('openModalBtn');
+            const closeBtn = document.querySelector('.close-btn');
+
+            // 1. "모달 열기" 버튼 클릭 시
+            openBtn.addEventListener('click', () => {
+                // 모달의 display 속성을 'block'으로 바꿔 화면에 표시합니다.
+                modal.style.display = 'block';
+                
+            });
+
+            // 2. 모달 내의 'x' (닫기) 버튼 클릭 시
+            closeBtn.addEventListener('click', () => {
+                // 모달의 display 속성을 'none'으로 바꿔 화면에서 숨깁니다.
+                modal.style.display = 'none';
+            });
+
+            // 3. 모달 외부(반투명 배경) 클릭 시 (추가 기능)
+            window.addEventListener('click', (event) => {
+                // 클릭된 요소가 모달 자체(배경)인지 확인합니다.
+                if (event.target === modal) {
+                    // 모달을 닫습니다.
+                    modal.style.display = 'none';
+                }
+            });
+    </script
+    -->
+</body>
+</html>
